@@ -6,7 +6,7 @@
 function renderTransactions(transactions) {
 	var finalHTML = '<div class="buffer">TRANSACTIONS</div>';
 
-	var transactionsHTML = transactions.map(function () {
+	var transactionsHTML = transactions.map(function (transaction) {
 		var transactionHTML = `
 		<div class="transaction">
 			<div class="name">${transaction.name}</div>
