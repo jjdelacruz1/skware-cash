@@ -3,6 +3,12 @@
 //   given a list of transactions, will generate an HTML
 //   string representing the transactions
 //*******************************************************
+console.info('some information')
+console.log('loggy loggy loggy')
+console.warn('uh oh, warning!')
+console.error('something really bad')
+
+
 function renderTransactions(transactions) {
 	var finalHTML = '<div class="buffer">TRANSACTIONS</div>';
 
@@ -32,13 +38,39 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.getElementById('transactions').innerHTML = renderTransactions(fullTransactionData);
 
 	document.getElementById('search-input').addEventListener('input', function (e) {
-		var searchString = e.target.value;
-		var filteredData = fullTransactionData.filter(function (transaction) {
-			var foundInName = transaction.name.indexOf(searchString) > -1;
-			var foundInFor = transaction.for.indexOf(searchString) > -1;
-			var foundInDate = transaction.date.indexOf(searchString) > -1;
-			var foundInAmount = transaction.amount.indexOf(searchString) > -1;
-			return foundInName || foundInFor || foundInDate || foundInAmount;
+		const targetEl = e.target
+		console.assert(e.target, 'target element does not exist')
+
+		const searchString = e.target.value;
+		console.assert(typeof e.target.value === 'string', 'e.target.value is not a string!')
+
+		const lowerCaseSearchString = searchString.toLowerCase()
+		const keysToSearch = ['name', 'for', 'date', 'amount']
+
+		const filteredData = fullTransactionData.filter(function (transaction) {
+
+			for (let i = 0; i < keysToSearch.length; i++) {
+				const objKey = keysToSearch[i]
+				const lcText = transaction[objKey].toLowerCase()
+
+				if (lcText.indexOf(lowerCaseSearchString) > -1) {
+					return true
+				}
+			}
+
+			return false
+
+			// const lcName = transaction.name.toLowerCase()
+			// const lcFor = transaction.for.toLowerCase()
+			// const lcDate = transaction.date.toLowerCase()
+			// const lcAmount = transaction.amount.toLowerCase()
+
+			// const foundInName = lcName.indexOf(lowerCaseSearchString) > -1;
+			// const foundInFor = lcFor.indexOf(lowerCaseSearchString) > -1;
+			// const foundInDate = lcDate.indexOf(lowerCaseSearchString) > -1;
+			// const foundInAmount = lcAmount.indexOf(lowerCaseSearchString) > -1;
+
+			// return foundInName || foundInFor || foundInDate || foundInAmount;
 		});
 
 		document.getElementById('transactions').innerHTML = renderTransactions(filteredData);
